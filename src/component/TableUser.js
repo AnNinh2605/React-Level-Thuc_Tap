@@ -3,10 +3,12 @@ import { Container } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import { fetchAllUser } from '../service/userService';
 import ReactPaginate from 'react-paginate';
+import ModalAddNew from './ModalAddNew';
 
 const TableUser = () => {
     const [listUser, setListUser] = useState('');
     const [pageCount, setPageCount] = useState(0); // state to save total page
+    const [showModalAddNew, setShowModalAddNew] = useState(false) // state to set show/close modal add new
     useEffect(() => {
         //call api
         getAlluser(1);  // 1 is default page to display
@@ -21,8 +23,21 @@ const TableUser = () => {
     const handlePageClick = (event) => {
         getAlluser(+event.selected + 1);
     }
+    const handleAddNewButton = () => {
+        setShowModalAddNew(true);
+    }
+    // handel close modal add new user
+    const handleClose = () => {
+        setShowModalAddNew(false);
+    }
     return (
         <Container>
+            <div className='add-new my-2 d-flex justify-content-between'>
+                <b>List Users</b>
+                <button className='btn btn-success'
+                    onClick={() => handleAddNewButton()}
+                >Add new user</button>
+            </div>
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -53,6 +68,7 @@ const TableUser = () => {
                 pageRangeDisplayed={3}
                 marginPagesDisplayed={2}
                 pageCount={pageCount}
+
                 previousLabel="< previous"
                 pageClassName="page-item"
                 pageLinkClassName="page-link"
@@ -67,6 +83,7 @@ const TableUser = () => {
                 activeClassName="active"
                 renderOnZeroPageCount={null}
             />
+            <ModalAddNew handleClose={handleClose} show={showModalAddNew} />
         </Container>
     )
 }
