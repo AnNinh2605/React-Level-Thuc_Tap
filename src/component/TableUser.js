@@ -11,8 +11,8 @@ const TableUser = () => {
     }, [])
     const getAlluser = async () => {
         let results = await fetchAllUser();
-        if (results && results.data && results.data.data) {
-            setListUser(results.data.data)
+        if (results && results.data) {
+            setListUser(results.data)
         }
     }
     return (
