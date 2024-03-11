@@ -1,19 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
-// import { toast } from 'react-toastify';
-
+import { updateUser } from '../service/userService'
+import { toast } from 'react-toastify';
 
 const ModalEditUser = (props) => {
     const { show, handleClose, userEditData } = props;
-    const [email, setEmail] = useState('');
-    const [firstName, setfirstName] = useState('');
-    const [lastName, setlastName] = useState('');
+    const [name, setName] = useState('');
+    const [job, setJob] = useState('');
 
     // button create user = close + create
     const handleSaveEditButton = async () => {
-
+        let results = await updateUser(name, job);
+        if (results && results.updatedAt) {
+            toast.success("Update successful");
+            setJob('');
+        }
+        else {
+            toast.error("Update fail");
+        }
         handleClose();
     }
+    useEffect(() => {
+        if (show) {
+            setName(userEditData.first_name);
+        }
+    }, [userEditData])
     return (
         <div>
             <Modal show={show} onHide={handleClose}>
@@ -21,38 +32,25 @@ const ModalEditUser = (props) => {
                     <Modal.Title>Edit user</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control
-                                type="email"
-                                placeholder="name@example.com"
-                                autoFocus
-                                value={userEditData.email}
-                                onChange={(event) => setEmail(event.target.value)}
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>First name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Your first name"
-                                autoFocus
-                                value={userEditData.first_name}
-                                onChange={(event) => setfirstName(event.target.value)}
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Last name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Your last name"
-                                autoFocus
-                                value={userEditData.last_name}
-                                onChange={(event) => setlastName(event.target.value)}
-                            />
-                        </Form.Group>
-                    </Form>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Your name"
+                            value={name}
+                            onChange={event => setName(event.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Job</Form.Label>
+                        <Form.Control
+                            className='form-control'
+                            type="email"
+                            placeholder="Your job"
+                            value={job}
+                            onChange={event => setJob(event.target.value)}
+                        />
+                    </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
