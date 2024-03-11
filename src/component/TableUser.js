@@ -4,11 +4,14 @@ import Table from 'react-bootstrap/Table';
 import { fetchAllUser } from '../service/userService';
 import ReactPaginate from 'react-paginate';
 import ModalAddNew from './ModalAddNew';
+import ModalEditUser from './ModalEditUser';
 
 const TableUser = () => {
     const [listUser, setListUser] = useState([]);
     const [pageCount, setPageCount] = useState(0); // state to save total page
     const [showModalAddNew, setShowModalAddNew] = useState(false) // state to set show/close modal add new
+    const [showModalEditUser, setShowModalEditUser] = useState(false) // state to set show/close modal edit user
+    const [userEditData, setUserEditData] = useState(''); // state save data user to edit modal
     useEffect(() => {
         //call api
         getAlluser(1);  // 1 is default page to display
@@ -29,6 +32,11 @@ const TableUser = () => {
     // handel close modal add new user
     const handleClose = () => {
         setShowModalAddNew(false);
+        setShowModalEditUser(false);
+    }
+    const handleEditButton = (item) => {
+        setShowModalEditUser(true);
+        setUserEditData(item);
     }
     return (
         <Container>
@@ -45,6 +53,7 @@ const TableUser = () => {
                         <th>Email</th>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,6 +65,12 @@ const TableUser = () => {
                                     <td>{item.email}</td>
                                     <td>{item.first_name}</td>
                                     <td>{item.last_name}</td>
+                                    <td>
+                                        <button className='btn btn-warning me-2'
+                                            onClick={() => handleEditButton(item)}
+                                        >Edit</button>
+                                        <button className='btn btn-danger'>Delete</button>
+                                    </td>
                                 </tr>
                             )
                         }) : null
@@ -84,6 +99,7 @@ const TableUser = () => {
                 renderOnZeroPageCount={null}
             />
             <ModalAddNew handleClose={handleClose} show={showModalAddNew} />
+            <ModalEditUser handleClose={handleClose} show={showModalEditUser} userEditData={userEditData}/>
         </Container>
     )
 }
