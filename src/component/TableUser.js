@@ -6,7 +6,7 @@ import ReactPaginate from 'react-paginate';
 import ModalAddNew from './ModalAddNew';
 
 const TableUser = () => {
-    const [listUser, setListUser] = useState('');
+    const [listUser, setListUser] = useState([]);
     const [pageCount, setPageCount] = useState(0); // state to save total page
     const [showModalAddNew, setShowModalAddNew] = useState(false) // state to set show/close modal add new
     useEffect(() => {

@@ -1,14 +1,27 @@
 import { useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
+import { createUser } from '../service/userService';
+import { toast } from 'react-toastify';
+
 
 const ModalAddNew = (props) => {
     const { show, handleClose } = props;
     const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
+    const [firstName, setfirstName] = useState('');
+    const [lastName, setlastName] = useState('');
 
     // button create user = close + create
-    const handleCreatButton = () => {
-        console.log(email + name);
+    const handleCreateButton = async () => {
+        let results = await createUser(email, firstName, lastName);
+        if (results && results.id) {
+            toast.success("Create user successful");
+            setEmail('');
+            setfirstName('');
+            setlastName('');
+        }
+        else {
+            toast.success("Create error");
+        }
         handleClose();
     }
     return (
@@ -29,12 +42,21 @@ const ModalAddNew = (props) => {
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
-                            <Form.Label>Name</Form.Label>
+                            <Form.Label>First name</Form.Label>
                             <Form.Control
-                                type="email"
-                                placeholder="Enter your name"
+                                type="text"
+                                placeholder="Your first name"
                                 autoFocus
-                                onChange={(event) => setName(event.target.value)}
+                                onChange={(event) => setfirstName(event.target.value)}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Last name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Your last name"
+                                autoFocus
+                                onChange={(event) => setlastName(event.target.value)}
                             />
                         </Form.Group>
                     </Form>
@@ -43,7 +65,7 @@ const ModalAddNew = (props) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => handleCreatButton()}>
+                    <Button variant="primary" onClick={() => handleCreateButton()}>
                         Create
                     </Button>
                 </Modal.Footer>
