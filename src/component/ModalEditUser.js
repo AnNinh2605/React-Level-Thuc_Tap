@@ -8,7 +8,6 @@ const ModalEditUser = (props) => {
     const [name, setName] = useState('');
     const [job, setJob] = useState('');
 
-    // button create user = close + create
     const handleSaveEditButton = async () => {
         let results = await updateUser(name, job);
         if (results && results.updatedAt) {
@@ -27,7 +26,12 @@ const ModalEditUser = (props) => {
     }, [userEditData])
     return (
         <div>
-            <Modal show={show} onHide={handleClose}>
+            <Modal 
+            show={show} 
+            onHide={handleClose}
+            backdrop="static"
+            keyboard={false}
+            >
                 <Modal.Header closeButton>
                     <Modal.Title>Edit user</Modal.Title>
                 </Modal.Header>

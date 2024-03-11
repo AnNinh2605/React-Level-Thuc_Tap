@@ -5,13 +5,16 @@ import { fetchAllUser } from '../service/userService';
 import ReactPaginate from 'react-paginate';
 import ModalAddNew from './ModalAddNew';
 import ModalEditUser from './ModalEditUser';
+import ModalDeleteUser from './ModalDeleteUser';
 
 const TableUser = () => {
     const [listUser, setListUser] = useState([]);
     const [pageCount, setPageCount] = useState(0); // state to save total page
     const [showModalAddNew, setShowModalAddNew] = useState(false) // state to set show/close modal add new
     const [showModalEditUser, setShowModalEditUser] = useState(false) // state to set show/close modal edit user
-    const [userEditData, setUserEditData] = useState(''); // state save data user to edit modal
+    const [showModalDeleteUser, setshowModalDeleteUser] = useState(false) // state to set show/close modal delete user
+    const [userEditData, setUserEditData] = useState(''); // state save data user pass to edit modal
+    const [userDeleteData, setUserDeleteData] = useState(''); // state save data user pass to delete modal
     useEffect(() => {
         //call api
         getAlluser(1);  // 1 is default page to display
@@ -33,11 +36,17 @@ const TableUser = () => {
     const handleClose = () => {
         setShowModalAddNew(false);
         setShowModalEditUser(false);
+        setshowModalDeleteUser(false);
     }
     const handleEditButton = (item) => {
         setShowModalEditUser(true);
         setUserEditData(item);
     }
+    const handleDeleteButton = (item) => {
+        setshowModalDeleteUser(true);
+        setUserDeleteData(item)
+    }
+
     return (
         <Container>
             <div className='add-new my-2 d-flex justify-content-between'>
@@ -69,7 +78,10 @@ const TableUser = () => {
                                         <button className='btn btn-warning me-2'
                                             onClick={() => handleEditButton(item)}
                                         >Edit</button>
-                                        <button className='btn btn-danger'>Delete</button>
+                                        <button
+                                            className='btn btn-danger'
+                                            onClick={() => handleDeleteButton(item)}
+                                        >Delete</button>
                                     </td>
                                 </tr>
                             )
@@ -99,7 +111,8 @@ const TableUser = () => {
                 renderOnZeroPageCount={null}
             />
             <ModalAddNew handleClose={handleClose} show={showModalAddNew} />
-            <ModalEditUser handleClose={handleClose} show={showModalEditUser} userEditData={userEditData}/>
+            <ModalEditUser handleClose={handleClose} show={showModalEditUser} userEditData={userEditData} />
+            <ModalDeleteUser handleClose={handleClose} show={showModalDeleteUser} userDeleteData={userDeleteData} />
         </Container>
     )
 }
