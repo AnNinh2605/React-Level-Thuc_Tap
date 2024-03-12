@@ -6,7 +6,7 @@ import ReactPaginate from 'react-paginate';
 import ModalAddNew from './ModalAddNew';
 import ModalEditUser from './ModalEditUser';
 import ModalDeleteUser from './ModalDeleteUser';
-import _ from 'lodash'
+import _, { debounce } from 'lodash'
 
 const TableUser = () => {
     const [listUser, setListUser] = useState([]);
@@ -50,16 +50,27 @@ const TableUser = () => {
         setshowModalDeleteUser(true);
         setUserDeleteData(item)
     }
-
+    // function hande sort 
     const handleSort = (Field, By) => {
         setSortBy(By);
         setSortField(Field);
-
+        // reset list user and show to view
         let cloneListUser = _.cloneDeep(listUser);
         cloneListUser = _.orderBy(cloneListUser, [Field], [By]);
         setListUser(cloneListUser);
     }
-
+    // search user by email
+    const handleInputSearch = debounce((value) => {
+        // check if delete to no value then getAlluser again
+        if (value) {
+            let cloneListUser = _.cloneDeep(listUser);
+            cloneListUser = cloneListUser.filter(item => _.includes(item.email, value));
+            setListUser(cloneListUser);
+        }
+        else {
+            getAlluser(1)
+        }
+    }, 500)
     return (
         <Container>
             <div className='add-new my-2 d-flex justify-content-between'>
@@ -68,6 +79,13 @@ const TableUser = () => {
                     onClick={() => handleAddNewButton()}
                 >Add new user</button>
             </div>
+            <form className="form-group my-2 col-4">
+                <input className="form-control mr-sm-2"
+                    type="search"
+                    placeholder="Search user by email"
+                    aria-label="Search"
+                    onChange={(event) => handleInputSearch(event.target.value)} />
+            </form>
             <Table striped bordered hover>
                 <thead>
                     <tr>
