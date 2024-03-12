@@ -10,12 +10,6 @@ import _, { debounce } from 'lodash'
 import { CSVLink } from "react-csv";
 
 const TableUser = () => {
-    const csvData = [
-        ["firstname", "lastname", "email"],
-        ["Ahmed", "Tomi", "ah@smthing.co.com"],
-        ["Raed", "Labes", "rl@smthing.co.com"],
-        ["Yezzi", "Min l3b", "ymin@cocococo.com"]
-    ];
     const [listUser, setListUser] = useState([]);
     const [pageCount, setPageCount] = useState(0); // state to save total page
     const [showModalAddNew, setShowModalAddNew] = useState(false) // state to set show/close modal add new
@@ -26,6 +20,8 @@ const TableUser = () => {
 
     const [sortBy, setSortBy] = useState('asc'); // default sort ASCending
     const [sortField, setSortField] = useState(''); // state to save field sort
+
+    const [dataExport, setDataExport] = useState([]); //state to save data to export
     useEffect(() => {
         //call api
         getAlluser(1);  // 1 is default page to display
@@ -78,6 +74,23 @@ const TableUser = () => {
             getAlluser(1)
         }
     }, 500)
+    // handle export function
+    const handleExport = (event, done) => {
+        let results = [];
+        if (listUser && listUser.length > 0) {
+            results.push(["ID", "Email", "First name", "Last name"]);
+            listUser.map((item, index) => {
+                let arr = [];
+                arr[0] = item.id;
+                arr[1] = item.email;
+                arr[2] = item.first_name;
+                arr[3] = item.last_name;
+                results.push(arr);
+            })
+            setDataExport(results);
+            done();
+        }
+    }
     return (
         <Container>
             <div className='add-new my-2 d-flex justify-content-between'>
@@ -89,8 +102,10 @@ const TableUser = () => {
                     </label>
                     <input type='file' hidden></input>
                     <CSVLink
-                        data={csvData}
+                        data={dataExport}
                         filename={"Userlist.csv"}
+                        asyncOnClick={true}
+                        onClick={handleExport}
                         className="btn btn-primary me-2"
                     >
                         <i className="fa-solid fa-file-arrow-down me-2"></i>
