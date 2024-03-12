@@ -7,8 +7,15 @@ import ModalAddNew from './ModalAddNew';
 import ModalEditUser from './ModalEditUser';
 import ModalDeleteUser from './ModalDeleteUser';
 import _, { debounce } from 'lodash'
+import { CSVLink } from "react-csv";
 
 const TableUser = () => {
+    const csvData = [
+        ["firstname", "lastname", "email"],
+        ["Ahmed", "Tomi", "ah@smthing.co.com"],
+        ["Raed", "Labes", "rl@smthing.co.com"],
+        ["Yezzi", "Min l3b", "ymin@cocococo.com"]
+    ];
     const [listUser, setListUser] = useState([]);
     const [pageCount, setPageCount] = useState(0); // state to save total page
     const [showModalAddNew, setShowModalAddNew] = useState(false) // state to set show/close modal add new
@@ -75,9 +82,26 @@ const TableUser = () => {
         <Container>
             <div className='add-new my-2 d-flex justify-content-between'>
                 <b>List Users</b>
-                <button className='btn btn-success'
-                    onClick={() => handleAddNewButton()}
-                >Add new user</button>
+                <div>
+                    <label htmlFor='import' className='btn btn-warning me-2'>
+                        <i className="fa-solid fa-file-import me-2"></i>
+                        Import
+                    </label>
+                    <input type='file' hidden></input>
+                    <CSVLink
+                        data={csvData}
+                        filename={"Userlist.csv"}
+                        className="btn btn-primary me-2"
+                    >
+                        <i className="fa-solid fa-file-arrow-down me-2"></i>
+                        Export</CSVLink>
+                    <button className='btn btn-success'
+                        onClick={() => handleAddNewButton()}
+                    >
+                        <i className="fa-solid fa-circle-plus"></i>
+                        <span className='ms-1'>Add new</span>
+                    </button>
+                </div>
             </div>
             <form className="form-group my-2 col-4">
                 <input className="form-control mr-sm-2"
