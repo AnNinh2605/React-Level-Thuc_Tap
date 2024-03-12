@@ -6,6 +6,7 @@ import ReactPaginate from 'react-paginate';
 import ModalAddNew from './ModalAddNew';
 import ModalEditUser from './ModalEditUser';
 import ModalDeleteUser from './ModalDeleteUser';
+import _ from 'lodash'
 
 const TableUser = () => {
     const [listUser, setListUser] = useState([]);
@@ -15,6 +16,9 @@ const TableUser = () => {
     const [showModalDeleteUser, setshowModalDeleteUser] = useState(false) // state to set show/close modal delete user
     const [userEditData, setUserEditData] = useState(''); // state save data user pass to edit modal
     const [userDeleteData, setUserDeleteData] = useState(''); // state save data user pass to delete modal
+
+    const [sortBy, setSortBy] = useState('asc'); // default sort ASCending
+    const [sortField, setSortField] = useState(''); // state to save field sort
     useEffect(() => {
         //call api
         getAlluser(1);  // 1 is default page to display
@@ -47,6 +51,15 @@ const TableUser = () => {
         setUserDeleteData(item)
     }
 
+    const handleSort = (Field, By) => {
+        setSortBy(By);
+        setSortField(Field);
+
+        let cloneListUser = _.cloneDeep(listUser);
+        cloneListUser = _.orderBy(cloneListUser, [Field], [By]);
+        setListUser(cloneListUser);
+    }
+
     return (
         <Container>
             <div className='add-new my-2 d-flex justify-content-between'>
@@ -58,9 +71,28 @@ const TableUser = () => {
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th className='d-flex d-flex justify-content-between'>
+                            <span>Id</span>
+                            <div role='button'>
+                                <i className="pe-2 fa-solid fa-arrow-up-long"
+                                    onClick={() => handleSort('id', 'asc')}
+                                ></i>
+                                <i className="fa-solid fa-arrow-down-long"
+                                    onClick={() => handleSort('id', 'desc')}
+                                ></i>
+                            </div>
+                        </th>
                         <th>Email</th>
-                        <th>First Name</th>
+                        <th className='d-flex d-flex justify-content-between'>
+                            <span>First Name</span>
+                            <div role='button'>
+                                <i className="pe-2 fa-solid fa-arrow-up-long"
+                                    onClick={() => handleSort('first_name', 'asc')}></i>
+                                <i className="fa-solid fa-arrow-down-long"
+                                    onClick={() => handleSort('first_name', 'desc')}
+                                ></i>
+                            </div>
+                        </th>
                         <th>Last Name</th>
                         <th>Actions</th>
                     </tr>
