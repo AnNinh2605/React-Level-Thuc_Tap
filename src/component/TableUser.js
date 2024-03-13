@@ -8,6 +8,8 @@ import ModalEditUser from './ModalEditUser';
 import ModalDeleteUser from './ModalDeleteUser';
 import _, { debounce } from 'lodash'
 import { CSVLink } from "react-csv";
+import Papa from "papaparse";
+import { toast } from 'react-toastify';
 
 const TableUser = () => {
     const [listUser, setListUser] = useState([]);
@@ -91,6 +93,57 @@ const TableUser = () => {
             done();
         }
     }
+    // handle import file
+    const handleImport = (event) => {
+        // check if upload successful
+        if (event.target && event.target.files && event.target.files[0]) {
+            let file = event.target.files[0];
+            // check file type
+            if (file.type !== 'text/csv') {
+                toast.error("Only accept csv files");
+                return;
+            }
+            else {
+                // Parse local CSV file
+                Papa.parse(file, {
+                    // header: true,
+                    complete: function (results) {
+                        console.log("Finished:", results.data);
+                        // let rawCSV = results.data;
+                        // if (rawCSV.length > 0) {
+                        //     if (rawCSV[0] && rawCSV[0].length === 3) {
+                            // check data inside file to make sure enough requested field
+                        //         if (rawCSV[0] !== 'email' ||
+                        //             rawCSV[1] !== 'first_name' ||
+                        //             rawCSV[2] !== 'last_name') {
+                        //             toast.error("Wrong format header csv file");
+                        //         }
+                        //         else {
+                        //             let result = [];
+                        //             rawCSV.map((item, index) => {
+                        //                 if (index > 0 && item.length === 3) {
+                        //                     let obj = {};
+                        //                     obj.email = item[0];
+                        //                     obj.first_name = item[1];
+                        //                     obj.last_name = item[2];
+                        //                     result.push(obj);
+                        //                 }
+                        //             })
+                        //             setListUser(result);
+                        //         }
+                        //     }
+                        //     else {
+                        //         toast.error("Wrong format csv file")
+                        //     }
+                        // }
+                        // else {
+                        //     toast.error("Not found data on csv file")
+                        // }
+                    }
+                });
+            }
+        }
+    }
     return (
         <Container>
             <div className='add-new my-2 d-flex justify-content-between'>
@@ -100,7 +153,9 @@ const TableUser = () => {
                         <i className="fa-solid fa-file-import me-2"></i>
                         Import
                     </label>
-                    <input type='file' hidden></input>
+                    <input type='file' id='import' hidden
+                        onChange={(event) => handleImport(event)}
+                    ></input>
                     <CSVLink
                         data={dataExport}
                         filename={"Userlist.csv"}
