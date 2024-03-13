@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 const Header = () => {
     return (
         <>
-            <Navbar expand="lg" className="bg-body-tertiary">
+            <Navbar expand="lg" className="bg-light">
                 <Container>
                     <Navbar.Brand href="/">
                         <img
