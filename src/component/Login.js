@@ -3,12 +3,18 @@ import { loginApi } from '../service/userService'
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import '../App.scss'
+import { useContext } from 'react';
+import { UserContext } from '../context/UserContext'
+
 const Login = () => {
     let navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isShowPassword, setIsShowPassword] = useState(false);
     const [loadingLoginButton, setLoadingLoginButton] = useState(false);
+
+    // useContext
+    const { loginContext } = useContext(UserContext);
 
     const handleLoginButton = async () => {
         setLoadingLoginButton(true);
@@ -18,8 +24,8 @@ const Login = () => {
         else {
             let results = await loginApi(email, password);
             if (results && results.token) {
+                loginContext(email, results.token)
                 navigate('/');
-                localStorage.setItem("token", results.token);
                 toast.success("Login successful")
             }
             else {
@@ -30,6 +36,10 @@ const Login = () => {
             }
         }
         setLoadingLoginButton(false);
+    }
+
+    const handleGoBack = () => {
+        navigate('/');
     }
     useEffect(() => {
         if (localStorage.getItem("token")) {
@@ -64,7 +74,7 @@ const Login = () => {
                     &nbsp;Login</button>
                 <div className='text-center'>
                     <i className="fa-solid fa-angles-left" role='button'></i>
-                    <span role='button'> Go back</span>
+                    <span role='button' onClick={() => handleGoBack()}> Go back</span>
                 </div>
             </div>
         </div>
