@@ -3,19 +3,22 @@ import Header from './component/Header';
 import { ToastContainer } from 'react-toastify';
 
 import { useContext, useEffect } from 'react';
-import { UserContext } from './context/UserContext'
+// import { UserContext } from './context/UserContext'
 import AppRoutes from './routes/AppRoutes';
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { handleRefresh } from './redux/actions/userAction'
 
 function App() {
-  //redux
+  const dispatch = useDispatch();
   const dataUserRedux = useSelector(state => state.user.account);
-
-  const { loginContext } = useContext(UserContext);
+  // useContext
+  // const { loginContext } = useContext(UserContext);
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      loginContext(localStorage.getItem('email'), localStorage.getItem('token'));
+      // loginContext(localStorage.getItem('email'), localStorage.getItem('token'));
+      dispatch(handleRefresh());
     }
   }, [])
   return (

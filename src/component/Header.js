@@ -6,20 +6,35 @@ import logoApp from '../assets/image/logo192.png'
 import { NavLink } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useContext } from 'react';
-import { UserContext } from '../context/UserContext'
+import { useDispatch, useSelector } from 'react-redux';
+import { handleLogoutRedux } from '../redux/actions/userAction'
+import { useEffect } from 'react';
+
+// useContext
+// import { useContext } from 'react';
+// import { UserContext } from '../context/UserContext'
 
 const Header = () => {
     // useContext
-    const { logout, user } = useContext(UserContext);
+    // const { logout, user } = useContext(UserContext);
+
+    const user = useSelector(state => state.user.account);
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
     const handleLogoutButton = () => {
-        logout();
-        navigate('/');
-        toast.success("Logout successful")
-    }
+        // useContext
+        // logout();
+        // navigate('/');
+        // toast.success("Logout successful")
 
+        dispatch(handleLogoutRedux());
+    }
+    useEffect(() => {
+        if (user && user.auth === false) {
+            navigate('/');
+        }
+    }, [user])
     return (
         <>
             <Navbar expand="lg" className="bg-light">
@@ -36,7 +51,7 @@ const Header = () => {
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
-                        { ((user && user.auth) || (window.location.pathname === '/')) &&
+                        {((user && user.auth) || (window.location.pathname === '/')) &&
                             <>
                                 <Nav className="me-auto">
                                     <NavLink to="/" className="nav-link">Home</NavLink>
