@@ -112,7 +112,7 @@ const TableUser = () => {
                         // let rawCSV = results.data;
                         // if (rawCSV.length > 0) {
                         //     if (rawCSV[0] && rawCSV[0].length === 3) {
-                            // check data inside file to make sure enough requested field
+                        // check data inside file to make sure enough requested field
                         //         if (rawCSV[0] !== 'email' ||
                         //             rawCSV[1] !== 'first_name' ||
                         //             rawCSV[2] !== 'last_name') {
@@ -146,7 +146,7 @@ const TableUser = () => {
     }
     return (
         <Container>
-            <div className='add-new my-2 d-flex justify-content-between'>
+            <div className='add-new my-2 d-sm-flex justify-content-between'>
                 <b>List Users</b>
                 <div>
                     <label htmlFor='import' className='btn btn-warning me-2'>
@@ -173,66 +173,68 @@ const TableUser = () => {
                     </button>
                 </div>
             </div>
-            <form className="form-group my-2 col-4">
+            <form className="form-group my-2 col-sm-4 col-12">
                 <input className="form-control mr-sm-2"
                     type="search"
                     placeholder="Search user by email"
                     aria-label="Search"
                     onChange={(event) => handleInputSearch(event.target.value)} />
             </form>
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th className='d-flex d-flex justify-content-between'>
-                            <span>Id</span>
-                            <div role='button'>
-                                <i className="pe-2 fa-solid fa-arrow-up-long"
-                                    onClick={() => handleSort('id', 'asc')}
-                                ></i>
-                                <i className="fa-solid fa-arrow-down-long"
-                                    onClick={() => handleSort('id', 'desc')}
-                                ></i>
-                            </div>
-                        </th>
-                        <th>Email</th>
-                        <th className='d-flex d-flex justify-content-between'>
-                            <span>First Name</span>
-                            <div role='button'>
-                                <i className="pe-2 fa-solid fa-arrow-up-long"
-                                    onClick={() => handleSort('first_name', 'asc')}></i>
-                                <i className="fa-solid fa-arrow-down-long"
-                                    onClick={() => handleSort('first_name', 'desc')}
-                                ></i>
-                            </div>
-                        </th>
-                        <th>Last Name</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {listUser && listUser.length > 0 ?
-                        listUser.map((item, index) => {
-                            return (
-                                <tr key={`userList-${index}`}>
-                                    <td>{item.id}</td>
-                                    <td>{item.email}</td>
-                                    <td>{item.first_name}</td>
-                                    <td>{item.last_name}</td>
-                                    <td>
-                                        <button className='btn btn-warning me-2'
-                                            onClick={() => handleEditButton(item)}
-                                        >Edit</button>
-                                        <button
-                                            className='btn btn-danger'
-                                            onClick={() => handleDeleteButton(item)}
-                                        >Delete</button>
-                                    </td>
-                                </tr>
-                            )
-                        }) : null
-                    }
-                </tbody>
-            </Table>
+            <div className='overflow-auto'>
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th className='d-flex d-flex justify-content-between'>
+                                <span>Id</span>
+                                <div role='button'>
+                                    <i className="pe-2 fa-solid fa-arrow-up-long"
+                                        onClick={() => handleSort('id', 'asc')}
+                                    ></i>
+                                    <i className="fa-solid fa-arrow-down-long"
+                                        onClick={() => handleSort('id', 'desc')}
+                                    ></i>
+                                </div>
+                            </th>
+                            <th>Email</th>
+                            <th className='d-flex d-flex justify-content-between'>
+                                <span>First Name</span>
+                                <div role='button'>
+                                    <i className="pe-2 fa-solid fa-arrow-up-long"
+                                        onClick={() => handleSort('first_name', 'asc')}></i>
+                                    <i className="fa-solid fa-arrow-down-long"
+                                        onClick={() => handleSort('first_name', 'desc')}
+                                    ></i>
+                                </div>
+                            </th>
+                            <th>Last Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {listUser && listUser.length > 0 ?
+                            listUser.map((item, index) => {
+                                return (
+                                    <tr key={`userList-${index}`}>
+                                        <td>{item.id}</td>
+                                        <td>{item.email}</td>
+                                        <td>{item.first_name}</td>
+                                        <td>{item.last_name}</td>
+                                        <td>
+                                            <button className='btn btn-warning me-2'
+                                                onClick={() => handleEditButton(item)}
+                                            >Edit</button>
+                                            <button
+                                                className='btn btn-danger'
+                                                onClick={() => handleDeleteButton(item)}
+                                            >Delete</button>
+                                        </td>
+                                    </tr>
+                                )
+                            }) : null
+                        }
+                    </tbody>
+                </Table>
+            </div>
             <ReactPaginate
                 nextLabel="next >"
                 onPageChange={handlePageClick}

@@ -22,7 +22,7 @@ const Login = () => {
             toast.error("Missing email or password");
         }
         else {
-            let results = await loginApi(email, password);
+            let results = await loginApi(email.trim(), password);
             if (results && results.token) {
                 loginContext(email, results.token)
                 navigate('/');
@@ -37,7 +37,11 @@ const Login = () => {
         }
         setLoadingLoginButton(false);
     }
-
+    const handleLoginEnter = (event) => {
+        if (event && +event.keyCode === 13) {
+            handleLoginButton();
+        }
+    }
     const handleGoBack = () => {
         navigate('/');
     }
@@ -61,6 +65,7 @@ const Login = () => {
                         className="form-control"
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
+                        onKeyDown={(event) => handleLoginEnter(event)}
                     ></input>
                     <i className={isShowPassword ? "fa-regular fa-eye" : "fa-regular fa-eye-slash"}
                         onClick={() => setIsShowPassword(!isShowPassword)}

@@ -36,7 +36,7 @@ const Header = () => {
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
-                        { (user && user.auth || window.location.pathname === '/') &&
+                        { ((user && user.auth) || (window.location.pathname === '/')) &&
                             <>
                                 <Nav className="me-auto">
                                     <NavLink to="/" className="nav-link">Home</NavLink>

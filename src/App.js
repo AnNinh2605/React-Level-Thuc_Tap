@@ -9,9 +9,9 @@ import AppRoutes from './routes/AppRoutes';
 
 function App() {
   const { loginContext } = useContext(UserContext);
-  
+
   useEffect(() => {
-    if(localStorage.getItem('token')){
+    if (localStorage.getItem('token')) {
       loginContext(localStorage.getItem('email'), localStorage.getItem('token'));
     }
   }, [])
@@ -19,9 +19,7 @@ function App() {
     <>
       <div className="app-container">
         <Header />
-        <Container>
-          <AppRoutes />
-        </Container>
+        <AppRoutes />
       </div>
       <ToastContainer
         position="top-center"

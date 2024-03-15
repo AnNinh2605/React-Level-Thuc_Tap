@@ -1,4 +1,3 @@
-import { Routes } from "react-router-dom";
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext'
 import Alert from 'react-bootstrap/Alert';
@@ -20,9 +19,7 @@ const PrivateRoutes = (props) => {
     }
     return (
         <>
-            <Routes>
-                {props.children}
-            </Routes>
+            {props.children}
         </>
     )
 }
