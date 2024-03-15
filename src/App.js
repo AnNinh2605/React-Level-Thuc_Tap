@@ -2,12 +2,15 @@ import './App.scss';
 import Header from './component/Header';
 import { ToastContainer } from 'react-toastify';
 
-import { Container } from 'react-bootstrap';
 import { useContext, useEffect } from 'react';
 import { UserContext } from './context/UserContext'
 import AppRoutes from './routes/AppRoutes';
+import { useSelector } from 'react-redux'
 
 function App() {
+  //redux
+  const dataUserRedux = useSelector(state => state.user.account);
+
   const { loginContext } = useContext(UserContext);
 
   useEffect(() => {
