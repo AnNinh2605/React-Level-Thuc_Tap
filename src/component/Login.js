@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
-import { loginApi } from '../service/userService'
+// import { loginApi } from '../service/userService'
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
-import '../App.scss'
+import './Login.scss'
 
 // useContext
 // import { useContext } from 'react';
 // import { UserContext } from '../context/UserContext'
 
-// redux
 import { handleLoginRedux } from '../redux/actions/userAction'
 import { useDispatch, useSelector } from 'react-redux';
 

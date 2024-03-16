@@ -21,10 +21,8 @@ const TableUser = () => {
     const [userEditData, setUserEditData] = useState(''); // state save data user pass to edit modal
     const [userDeleteData, setUserDeleteData] = useState(''); // state save data user pass to delete modal
 
-    const [sortBy, setSortBy] = useState('asc'); // default sort ASCending
-    const [sortField, setSortField] = useState(''); // state to save field sort
-
     const [dataExport, setDataExport] = useState([]); //state to save data to export
+    
     useEffect(() => {
         //call api
         getAlluser(1);  // 1 is default page to display
@@ -52,14 +50,24 @@ const TableUser = () => {
         setShowModalEditUser(true);
         setUserEditData(item);
     }
+    const showEditToView = (user) => {
+        let cloneListUser = _.cloneDeep(listUser);
+        let findIndex = cloneListUser.findIndex(item => item.id === user.id);
+        cloneListUser[findIndex].first_name = user.first_name;
+        cloneListUser[findIndex].job = user.job;
+        setListUser(cloneListUser);
+    }
     const handleDeleteButton = (item) => {
         setshowModalDeleteUser(true);
         setUserDeleteData(item)
     }
+    const showDeleteToView = (user) => {
+        let cloneListUser = _.cloneDeep(listUser);
+        cloneListUser = cloneListUser.filter(item => item.id !== user.id);
+        setListUser(cloneListUser);
+    }
     // function hande sort 
     const handleSort = (Field, By) => {
-        setSortBy(By);
-        setSortField(Field);
         // reset list user and show to view
         let cloneListUser = _.cloneDeep(listUser);
         cloneListUser = _.orderBy(cloneListUser, [Field], [By]);
@@ -70,7 +78,7 @@ const TableUser = () => {
         // check if delete to no value then getAlluser again
         if (value) {
             let cloneListUser = _.cloneDeep(listUser);
-            cloneListUser = cloneListUser.filter(item => _.includes(item.email, value));
+            cloneListUser = cloneListUser.filter(item => item.email.includes(value));
             setListUser(cloneListUser);
         }
         else {
@@ -258,8 +266,18 @@ const TableUser = () => {
                 renderOnZeroPageCount={null}
             />
             <ModalAddNew handleClose={handleClose} show={showModalAddNew} />
-            <ModalEditUser handleClose={handleClose} show={showModalEditUser} userEditData={userEditData} />
-            <ModalDeleteUser handleClose={handleClose} show={showModalDeleteUser} userDeleteData={userDeleteData} />
+            <ModalEditUser 
+            handleClose={handleClose} 
+            show={showModalEditUser} 
+            userEditData={userEditData} 
+            showEditToView = {showEditToView} 
+            />
+            <ModalDeleteUser 
+            handleClose={handleClose} 
+            show={showModalDeleteUser} 
+            userDeleteData={userDeleteData} 
+            showDeleteToView = {showDeleteToView}
+            />
         </Container>
     )
 }

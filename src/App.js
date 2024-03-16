@@ -21,6 +21,7 @@ function App() {
       dispatch(handleRefresh());
     }
   }, [])
+
   return (
     <>
       <div className="app-container">

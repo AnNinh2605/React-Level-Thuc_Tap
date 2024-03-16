@@ -4,7 +4,7 @@ import { updateUser } from '../service/userService'
 import { toast } from 'react-toastify';
 
 const ModalEditUser = (props) => {
-    const { show, handleClose, userEditData } = props;
+    const { show, handleClose, userEditData, showEditToView } = props;
     const [name, setName] = useState('');
     const [job, setJob] = useState('');
 
@@ -12,6 +12,11 @@ const ModalEditUser = (props) => {
         let results = await updateUser(name, job);
         if (results && results.updatedAt) {
             toast.success("Update successful");
+            showEditToView({
+                first_name: name,
+                job: job,
+                id: userEditData.id
+            });
             setJob('');
         }
         else {
@@ -26,11 +31,11 @@ const ModalEditUser = (props) => {
     }, [userEditData])
     return (
         <div>
-            <Modal 
-            show={show} 
-            onHide={handleClose}
-            backdrop="static"
-            keyboard={false}
+            <Modal
+                show={show}
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Edit user</Modal.Title>

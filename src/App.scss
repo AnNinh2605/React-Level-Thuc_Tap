@@ -5,30 +5,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  .login-container {
-    input {
-      &:hover {
-        background-color: #f0f0f0 !important;
-      }
-    }
-
-    .input-password {
-      position: relative;
-
-      i {
-        position: absolute;
-        top: 12px;
-        right: 10px;
-        cursor: pointer;
-      }
-    }
-
-    button[disabled=disabled],
-    button:disabled {
-      cursor: not-allowed;
-    }
-  }
 }
 
 code {
