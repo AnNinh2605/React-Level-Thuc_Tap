@@ -2,7 +2,7 @@
 
 ## Request:
 + Use the API from the website https://reqres.in to create a website.
-+ Use the Angular framework to create a basic website screen including the following functions:
++ Use the ReactJs framework to create a basic website screen including the following functions:
 1. Login
 2. Add User
 3. Edit User
