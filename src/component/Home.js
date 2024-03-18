@@ -8,7 +8,7 @@ const Home = () => {
                         Sử dụng API từ trang web <a href="https://reqres.in">https://reqres.in</a> để tạo website.
                     </li>
                     <li>
-                        Sử dụng framework Angular để tạo một màn hình website cơ bản bao gồm các chức năng:
+                        Sử dụng framework ReactJs để tạo một màn hình website cơ bản bao gồm các chức năng:
                         <ol className="d-flex flex-column gap-2 my-2">
                             <li>Đăng nhập</li>
                             <li>Thêm User</li>
